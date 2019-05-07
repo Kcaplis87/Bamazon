@@ -94,11 +94,26 @@ function SelectQuantity(dbItem) {
 
 }
 function reduceInventory(item, amount){
-  var sqlQuery = "";
+  var sqlQuery = "UPDATE products SET ? WHERE ?";
+
+  connection.query(sqlQuery,[
+    {
+      stock_quantity: item.stock_quantity - amount 
+    },
+    {
+      id: item.id
+    }
+    ],
+    function(err, res){
+      console.log(res) 
+      connection.end()
+      
+    }
+    )
 
   var totalCost = item.price * amount
   console.log("$" + totalCost)
-  
+
   //connection.query(sqlQuery, function(err, res){
     //if(err) throw err;
 
